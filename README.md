@@ -1,8 +1,8 @@
 # vagrant-box-ubuntu2204
 ## Description
-This project contains everything needed to build the Ubuntu 20.04 vagrant box. The box is build using Vagrant's packer tool. Currently only a box for the VirtualBox provider is built.
+This project contains everything needed to build the Ubuntu 22.04 vagrant box. The box is build using Vagrant's packer tool. Currently only a box for the VirtualBox provider is built.
 
-The box resulting is based on a clean Ubuntu 20.04 minimal install. We try to keep the builds up to date with the latest version of this box. Several tools are included in the box:
+The box resulting is based on a clean Ubuntu 22.04 minimal install. We try to keep the builds up to date with the latest version of this box. Several tools are included in the box:
 * ansible
 
 Built boxes can be found on [Vagrant Cloud](https://app.vagrantup.com/ilionx/boxes/ubuntu2204)
