@@ -1,0 +1,9 @@
+build/
+packer_cache/
+test-vagrant/
+iso/
+output-virtualbox-iso/
+build.env
+*.iso
+.idea
+/.python-version

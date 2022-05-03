@@ -1,0 +1,114 @@
+{
+  "variables": {
+    "ubuntu_base_version": "{{ env `UBUNTU_2204_BASE_VERSION` }}",
+    "ubuntu_base_iso": "{{ env `UBUNTU_2204_BASE_ISO` }}",
+    "ubuntu_base_iso_sha256": "{{ env `UBUNTU_2204_BASE_ISO_SHA256` }}",
+    "ansible_version": "{{ env `ANSIBLE_VERSION` }}",
+    "vboxadd_version": "{{ env `VBOXADD_VERSION` }}",
+    "box_version": "{{ env `BOX_VERSION` }}",
+    "box_description": "{{ env `BOX_DESCRIPTION` }}",
+    "vagrant_cloud_user": "{{ env `VAGRANT_CLOUD_USER` }}",
+    "vagrant_cloud_box_user": "{{ env `VAGRANT_CLOUD_BOX_USER` }}",
+    "vagrant_cloud_box_name": "{{ env `VAGRANT_CLOUD_BOX_NAME` }}",
+    "vagrant_cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
+    "box_version_description": "{{ env `BOX_VERSION_DESCRIPTION` }}"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<esc><esc><esc>",
+        "c<wait>",
+        "set gfxpayload=keep<enter><wait>",
+        "linux /casper/vmlinuz <wait>",
+        "autoinstall <wait>",
+        "ds=\"nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/\" <wait>",
+        "---<enter><wait>",
+        "initrd /casper/initrd<enter><wait>",
+        "boot<enter>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": 81920,
+      "guest_os_type": "Ubuntu_64",
+      "headless": true,
+      "http_directory": "http",
+      "iso_urls": [
+        "iso/{{ user `ubuntu_base_iso` }}",
+        "https://ubuntu.mirror.wearetriple.com/releases/{{ user `ubuntu_base_version` }}/ubuntu-{{ user `ubuntu_base_version` }}-live-server-amd64.iso",
+        "https://ftp.snt.utwente.nl/pub/os/linux/ubuntu-releases/{{ user `ubuntu_base_version` }}/ubuntu-{{ user `ubuntu_base_version` }}-live-server-amd64.iso",
+        "https://mirror.hostnet.nl/ubuntu/releases/{{ user `ubuntu_base_version` }}/ubuntu-{{ user `ubuntu_base_version` }}-live-server-amd64.iso",
+        "https://mirror.nl.leaseweb.net/ubuntu-releases/{{ user `ubuntu_base_version` }}/ubuntu-{{ user `ubuntu_base_version` }}-live-server-amd64.iso"
+      ],
+      "iso_target_path": "iso/{{ user `ubuntu_base_iso` }}",
+      "iso_checksum": "sha256:{{ user `ubuntu_base_iso_sha256` }}",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_read_write_timeout": "600s",
+      "ssh_timeout": "120m",
+      "ssh_wait_timeout": "120m",
+      "ssh_handshake_attempts": "5",
+      "shutdown_command": "sudo systemctl poweroff",
+      "guest_additions_mode": "disable",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "ubuntu2204",
+      "output_filename": "vagrant",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "8192"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "4"
+        ]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo python3 -m pip install ansible=={{ user `ansible_version` }}"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/install.yml",
+      "extra_arguments": [
+        "--extra-vars",
+        "\"box_version={{ user `box_version` }} vboxadd_version={{ user `vboxadd_version` }}\""
+      ]
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": true,
+      "scripts": [
+        "{{template_dir}}/scripts/whiteout.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "output": "build/{{user `vagrant_cloud_box_name` }}-{{user `box_version`}}.box",
+        "compression_level": 9
+      },
+      {
+        "type": "vagrant-cloud",
+        "box_tag": "{{ user `vagrant_cloud_box_user` }}/{{ user `vagrant_cloud_box_name` }}",
+        "access_token": "{{user `vagrant_cloud_token`}}",
+        "version": "{{user `box_version`}}",
+        "version_description": "{{user `box_version_description`}}",
+        "no_release": true,
+        "keep_input_artifact": true
+      }
+    ]
+  ]
+}

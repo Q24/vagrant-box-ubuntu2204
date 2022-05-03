@@ -1,0 +1,86 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+
+    - name: set swap to off
+      ansible.builtin.shell: swapoff -a
+
+    - name: remove swap mount from fstab
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        state: absent
+        regexp: '^/swap.img.*'
+
+    - name: delete swap file
+      ansible.builtin.file:
+        path: '/swap.img'
+        state: absent
+
+    - name: create the .ssh directory for the vagrant user
+      ansible.builtin.file:
+        path: /home/vagrant/.ssh
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: '0700'
+
+    - name: download vagrant default insecure ssh key and add it to the vagrant user authorized_keys file
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub
+        dest: /home/vagrant/.ssh/authorized_keys
+        owner: vagrant
+        group: vagrant
+        mode: '0600'
+        force: true
+
+    - name: download virtualbox guest additions iso file version {{ vboxadd_version }}
+      ansible.builtin.get_url:
+        url: https://download.virtualbox.org/virtualbox/{{ vboxadd_version }}/VBoxGuestAdditions_{{ vboxadd_version }}.iso
+        dest: /home/vagrant/VBoxGuestAdditions.iso
+        owner: vagrant
+        group: vagrant
+        mode: '0600'
+        force: true
+
+    - name: mount guest additions ISO read-only
+      ansible.posix.mount:
+        path: /mnt/
+        src: /home/vagrant/VBoxGuestAdditions.iso
+        fstype: iso9660
+        opts: ro
+        state: mounted
+
+    - name: install guest additions
+      ansible.builtin.shell: /mnt/VBoxLinuxAdditions.run
+      register: install_vboxadd
+      failed_when: install_vboxadd.rc != 2 # exit code 2 is the expected code in case of success on ubuntu
+
+    - name: unmount guest additions ISO
+      ansible.posix.mount:
+        path: /mnt/
+        state: absent
+
+    - name: delete guest additions ISO file
+      ansible.builtin.file:
+        path: /home/vagrant/VBoxGuestAdditions.iso
+        state: absent
+
+    - name: set up virtual box guest additions for all installed kernels
+      ansible.builtin.shell: /sbin/rcvboxadd quicksetup all
+
+    - name: make sure vboxadd-service systemd service is started and enabled by default
+      ansible.builtin.systemd:
+        name: vboxadd-service
+        state: started
+        enabled: true
+
+    - name: create /vagrant directory
+      ansible.builtin.file:
+        path: /vagrant
+        state: directory
+
+    - name: create /mnt directory
+      ansible.builtin.file:
+        path: /mnt
+        state: directory
