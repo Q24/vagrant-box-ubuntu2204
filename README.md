@@ -1,11 +1,11 @@
-# vagrant-box-ubuntu2004
+# vagrant-box-ubuntu2204
 ## Description
 This project contains everything needed to build the Ubuntu 20.04 vagrant box. The box is build using Vagrant's packer tool. Currently only a box for the VirtualBox provider is built.
 
 The box resulting is based on a clean Ubuntu 20.04 minimal install. We try to keep the builds up to date with the latest version of this box. Several tools are included in the box:
 * ansible
 
-Built boxes can be found on [Vagrant Cloud](https://app.vagrantup.com/ilionx/boxes/ubuntu2004)
+Built boxes can be found on [Vagrant Cloud](https://app.vagrantup.com/ilionx/boxes/ubuntu2204)
 
 ## Prerequisites
 To be able to build the box yourself, you'll need at least following tools installed:
@@ -17,18 +17,18 @@ To be able to build the box yourself, you'll need at least following tools insta
 The build wil be uploaded to Vagrant Cloud, so you'll need an account and corresponding token there. On top of that, the box has to be pre-created for the upload to succeed.
 
 ## Usage
-1. Make sure you have a Vagrant Cloud account with an authentication token. You need to have "admin" access to the [Vagrant Cloud box](https://app.vagrantup.com/ilionx/boxes/ubuntu2004), or you need to be the owner of the box for the upload to work automatically. This token can be created via [`Account settings -> Security`](https://app.vagrantup.com/settings/security). You can enter the username and token when requested by the `build.sh` script (but you will need to do this every time when creating a new build), or you can create a file `build.env` in the root of this repository where you set the variables as follows:
+1. Make sure you have a Vagrant Cloud account with an authentication token. You need to have "admin" access to the [Vagrant Cloud box](https://app.vagrantup.com/ilionx/boxes/ubuntu2204), or you need to be the owner of the box for the upload to work automatically. This token can be created via [`Account settings -> Security`](https://app.vagrantup.com/settings/security). You can enter the username and token when requested by the `build.sh` script (but you will need to do this every time when creating a new build), or you can create a file `build.env` in the root of this repository where you set the variables as follows:
 
 ```
 DEFAULT_VAGRANT_CLOUD_USER="your.username"
 DEFAULT_VAGRANT_CLOUD_TOKEN="your.vagrant.cloud.token"
 ```
 
-2. The script will update box `ilionx/ubuntu2004`. This name is hardcoded in the scripts. If you wish to create a box in your own account, change the following two environment variables in `build.sh`:
+2. The script will update box `ilionx/ubuntu2204`. This name is hardcoded in the scripts. If you wish to create a box in your own account, change the following two environment variables in `build.sh`:
 
 ```
 export VAGRANT_CLOUD_BOX_USER="ilionx"
-export VAGRANT_CLOUD_BOX_NAME="ubuntu2004"
+export VAGRANT_CLOUD_BOX_NAME="ubuntu2204"
 ```
 
 3. Make your changes, and commit them in your local git repository.
