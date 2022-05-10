@@ -43,7 +43,13 @@ export VAGRANT_CLOUD_BOX_NAME="ubuntu2204"
 9. Get yourself a celebratory beer!
 
 ## Using the base box
-You can use the base box like any other base box. The box itself is provisioned with Ansible, so if you wish to use Ansible in your provisioning process, you do not need to install Ansible again, as this is already part of the base box.
+You can use the base box like any other base box. The easiest way is to use the Vagrant `init` command:
+
+```
+vagrant init ilionx/ubuntu2204-minikube
+```
+
+This will create a barebones `Vagrantfile` which you can customise to your liking. The box itself is provisioned with Ansible, so if you wish to use Ansible in your provisioning process, you do not need to install Ansible again, as this is already part of the base box.
 
 Configure your `Vagrantfile` as follows to re-use the pre-installed Ansible (if you don't want to use Ansible to do your provisioning, you can skip this):
 
