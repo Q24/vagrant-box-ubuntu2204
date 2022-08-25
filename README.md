@@ -10,9 +10,9 @@ Built boxes can be found on [Vagrant Cloud](https://app.vagrantup.com/ilionx/box
 ## Prerequisites
 To be able to build the box yourself, you'll need at least following tools installed:
 
-* [Virtualbox](https://www.virtualbox.org/) (tested with version 6.1.32)
-* [Packer](https://www.packer.io/) (tested with version 1.8.0)
-* [Vagrant](https://www.vagrantup.com/) (tested with version 2.2.19)
+* [Virtualbox](https://www.virtualbox.org/) (tested with version 6.1.36)
+* [Packer](https://www.packer.io/) (tested with version 1.8.3)
+* [Vagrant](https://www.vagrantup.com/) (tested with version 2.3.0)
 
 The build wil be uploaded to Vagrant Cloud, so you'll need an account and corresponding token there. On top of that, the box has to be pre-created for the upload to succeed.
 
