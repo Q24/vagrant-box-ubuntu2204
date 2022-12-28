@@ -1,5 +1,12 @@
 ## Changelog
 
+### 1.2.0-20221228
+* Updated all Ubuntu packages to date 2022-12-28
+* Ansible: 7.1.0
+* Updated build process to support VirtualBox 7
+* VirtualBox guest additions: 7.0.4
+* Updated build dependencies: VirtualBox (7.0.4r154605), Packer (1.8.5), Vagrant (2.3.4)
+
 ### 1.1.1-20221124
 * Updated all Ubuntu packages to date 2022-11-24
 * Ansible: 6.6.0
