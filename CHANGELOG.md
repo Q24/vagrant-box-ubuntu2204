@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.3.1-20230619
+* Updated all Ubuntu packages to date 2023-06-19
+* Ansible: 8.0.0
+* Updated build dependencies: VirtualBox (7.0.8r156879), Packer (1.9.1), Vagrant (2.3.6)
+
 ### 1.3.0-20230320
 * Updated Ubuntu minor version to 22.04.2
 * Updated all Ubuntu packages to date 2023-03-20
