@@ -3,19 +3,19 @@
 set -e
 
 # Set version info
-export BOX_VERSION_BASE="1.4.0"
-export UBUNTU_2204_BASE_VERSION="22.04.3"
+export BOX_VERSION_BASE="1.5.0"
+export UBUNTU_2204_BASE_VERSION="22.04.4"
 export UBUNTU_2204_BASE_ISO="ubuntu-${UBUNTU_2204_BASE_VERSION}-live-server-amd64.iso"
-export UBUNTU_2204_BASE_ISO_SHA256="a4acfda10b18da50e2ec50ccaf860d7f20b389df8765611142305c0e911d16fd"
+export UBUNTU_2204_BASE_ISO_SHA256="45f873de9f8cb637345d6e66a583762730bbea30277ef7b32c9c3bd6700a32b2"
 
 # Set versions requested of main components (These will be used in Packer and passed to Ansible downstream)
-export ANSIBLE_VERSION="9.1.0"
-export VBOXADD_VERSION="7.0.12"
+export ANSIBLE_VERSION="9.3.0"
+export VBOXADD_VERSION="7.0.14"
 
 # Set versions of supported tools, if they don't match, a warning will be shown on screen
-export VIRTUALBOX_VERSION="7.0.12r159484"
-export PACKER_VERSION="1.9.5"
-export VAGRANT_VERSION="2.4.0"
+export VIRTUALBOX_VERSION="7.0.14r161095"
+export PACKER_VERSION="1.10.2-dev"
+export VAGRANT_VERSION="2.4.1"
 
 # Set the Vagrant cloud user and box name (make sure you have admin permissions to, or are the owner of this repository)
 export VAGRANT_CLOUD_BOX_USER="ilionx"
@@ -112,6 +112,12 @@ Built on commit: \`${commit}\`
 
 export BOX_VERSION_DESCRIPTION
 echo "${BOX_VERSION_DESCRIPTION}"
+
+# Install necessary packer plugins
+echo "Installing packer plugins: virtualbox, ansible, and vagrant"
+packer plugins install github.com/hashicorp/virtualbox
+packer plugins install github.com/hashicorp/ansible
+packer plugins install github.com/hashicorp/vagrant
 
 # Validate build config
 echo "Validating build json files"

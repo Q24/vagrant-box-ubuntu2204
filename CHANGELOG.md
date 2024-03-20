@@ -1,5 +1,12 @@
 ## Changelog
 
+### 1.5.0-20240320
+* Updated Ubuntu minor version to 22.04.4
+* Updated all Ubuntu packages to date 2024-03-20
+* Ansible: 9.3.0
+* VirtualBox guest additions: 7.0.14
+* Updated build dependencies: VirtualBox (7.0.14r161095), Packer (1.10.2-dev), Vagrant (2.4.1)
+
 ### 1.4.0-20231218
 * Updated Ubuntu minor version to 22.04.3
 * Updated all Ubuntu packages to date 2023-12-18
