@@ -3,22 +3,22 @@
 set -e
 
 # Set version info
-export BOX_VERSION_BASE="1.5.0"
-export UBUNTU_2204_BASE_VERSION="22.04.4"
+export BOX_VERSION_BASE="1.6.0"
+export UBUNTU_2204_BASE_VERSION="22.04.5"
 export UBUNTU_2204_BASE_ISO="ubuntu-${UBUNTU_2204_BASE_VERSION}-live-server-amd64.iso"
-export UBUNTU_2204_BASE_ISO_SHA256="45f873de9f8cb637345d6e66a583762730bbea30277ef7b32c9c3bd6700a32b2"
+export UBUNTU_2204_BASE_ISO_SHA256="9bc6028870aef3f74f4e16b900008179e78b130e6b0b9a140635434a46aa98b0"
 
 # Set versions requested of main components (These will be used in Packer and passed to Ansible downstream)
-export ANSIBLE_VERSION="9.3.0"
-export VBOXADD_VERSION="7.0.14"
+export ANSIBLE_VERSION="10.7.0"
+export VBOXADD_VERSION="7.1.6"
 
 # Set versions of supported tools, if they don't match, a warning will be shown on screen
-export VIRTUALBOX_VERSION="7.0.14r161095"
-export PACKER_VERSION="1.10.2-dev"
-export VAGRANT_VERSION="2.4.1"
+export VIRTUALBOX_VERSION="7.1.6r167084"
+export PACKER_VERSION="v1.12.0"
+export VAGRANT_VERSION="2.4.3"
 
 # Set the Vagrant cloud user and box name (make sure you have admin permissions to, or are the owner of this repository)
-export VAGRANT_CLOUD_BOX_USER="ilionx"
+export VAGRANT_CLOUD_BOX_USER="ilionxde"
 export VAGRANT_CLOUD_BOX_NAME="ubuntu2204"
 
 # ############################################################################################## #
@@ -40,7 +40,7 @@ fi
 
 # Check the tool versions
 INSTALLED_VIRTUALBOX_VERSION=$(vboxmanage --version)
-INSTALLED_PACKER_VERSION=$(packer --version)
+INSTALLED_PACKER_VERSION=$(packer --version | awk '{print $2}')
 INSTALLED_VAGRANT_VERSION=$(vagrant --version | awk '{print $2}')
 
 if [[ "$INSTALLED_VIRTUALBOX_VERSION" != "$VIRTUALBOX_VERSION" || "$INSTALLED_PACKER_VERSION" != "$PACKER_VERSION" || "$INSTALLED_VAGRANT_VERSION" != "$VAGRANT_VERSION" ]]
@@ -62,25 +62,25 @@ then
     source build.env
 fi
 
-# Check if the variables VAGRANT_CLOUD_USER and VAGRANT_CLOUD_TOKEN have been set, if not ask for them
-if [ -z "$DEFAULT_VAGRANT_CLOUD_USER" ] || [ -z "$DEFAULT_VAGRANT_CLOUD_TOKEN" ]
+# Check if the variables HCP_CLIENT_ID and HCP_CLIENT_SECRET have been set, if not ask for them
+if [ -z "$DEFAULT_HCP_CLIENT_ID" ] || [ -z "$DEFAULT_HCP_CLIENT_SECRET" ]
 then
     # Ask user for vagrant cloud token
-    echo -n "What is your Vagrant Cloud username? [ilionx] "
+    echo -n "What is your HCP Service Principal Client ID? "
     read -r user
-    user=${user:-ilionx}
-    export VAGRANT_CLOUD_USER=${user}
+    echo ""
+    export HCP_CLIENT_ID=${user}
 
     # Ask user for vagrant cloud token
-    echo -n "What is your Vagrant Cloud token? "
+    echo -n "What is your HCP Service Principal Client Secret? "
     read -rs token
     echo ""
-    export VAGRANT_CLOUD_TOKEN=${token}
+    export HCP_CLIENT_SECRET=${token}
 else
-    export VAGRANT_CLOUD_USER=$DEFAULT_VAGRANT_CLOUD_USER
-    export VAGRANT_CLOUD_TOKEN=$DEFAULT_VAGRANT_CLOUD_TOKEN
+    export HCP_CLIENT_ID=$DEFAULT_HCP_CLIENT_ID
+    export HCP_CLIENT_SECRET=$DEFAULT_HCP_CLIENT_SECRET
 
-    echo "Your vagrant cloud user and token have been sourced from file build.env"
+    echo "Your HCP Client ID and Secret have been sourced from file build.env"
 fi
 
 # Export dynamic versioning info

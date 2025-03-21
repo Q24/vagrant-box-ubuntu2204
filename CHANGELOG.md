@@ -1,5 +1,14 @@
 ## Changelog
 
+### 1.6.0-20250321
+* The box has moved from ilionx/ubuntu2204 to ilionxde/ubuntu2204-minikube
+* Updated Ubuntu minor version to 22.04.5
+* Updated all Ubuntu packages to date 2025-03-21
+* Ansible: 10.7.0
+* VirtualBox guest additions: 7.1.6
+* Updated build dependencies: VirtualBox (7.1.6r167084), Packer (1.12.0), Vagrant (2.4.3)
+* Converted build and Packer scripts to be compatible with new HashiCorp Cloud Platform (HCP)
+
 ### 1.5.0-20240320
 * Updated Ubuntu minor version to 22.04.4
 * Updated all Ubuntu packages to date 2024-03-20

@@ -7,10 +7,8 @@
     "vboxadd_version": "{{ env `VBOXADD_VERSION` }}",
     "box_version": "{{ env `BOX_VERSION` }}",
     "box_description": "{{ env `BOX_DESCRIPTION` }}",
-    "vagrant_cloud_user": "{{ env `VAGRANT_CLOUD_USER` }}",
     "vagrant_cloud_box_user": "{{ env `VAGRANT_CLOUD_BOX_USER` }}",
     "vagrant_cloud_box_name": "{{ env `VAGRANT_CLOUD_BOX_NAME` }}",
-    "vagrant_cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
     "box_version_description": "{{ env `BOX_VERSION_DESCRIPTION` }}"
   },
   "builders": [
@@ -107,9 +105,8 @@
         "compression_level": 9
       },
       {
-        "type": "vagrant-cloud",
+        "type": "vagrant-registry",
         "box_tag": "{{ user `vagrant_cloud_box_user` }}/{{ user `vagrant_cloud_box_name` }}",
-        "access_token": "{{user `vagrant_cloud_token`}}",
         "version": "{{user `box_version`}}",
         "version_description": "{{user `box_version_description`}}",
         "no_release": true,
