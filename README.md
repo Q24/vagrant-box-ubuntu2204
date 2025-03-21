@@ -17,7 +17,7 @@ To be able to build the box yourself, you'll need at least following tools insta
 The build wil be uploaded to HashiCorp Cloud Platform, so you'll need an account and corresponding token there. On top of that, the box has to be pre-created for the upload to succeed.
 
 ## Usage
-1. Make sure you have a HashiCorp Cloud Platform account with an service principal, and a Cliend ID and Client Secret for said principal. You need to have "admin" access to the [Vagrant Cloud box](https://portal.cloud.hashicorp.com/vagrant/discover/ilionxde/ubuntu2204), or you need to be the owner of the box for the upload to work automatically. You can enter the Client ID and Client Secret when requested by the `build.sh` script (but you will need to do this every time when creating a new build), or you can create a file `build.env` in the root of this repository where you set the variables as follows:
+1. Make sure you have a HashiCorp Cloud Platform account with a service principal, and a Cliend ID and Client Secret for said principal. You need to have "admin" access to the [Vagrant Cloud box](https://portal.cloud.hashicorp.com/vagrant/discover/ilionxde/ubuntu2204), or you need to be the owner of the box for the upload to work automatically. You can enter the Client ID and Client Secret when requested by the `build.sh` script (but you will need to do this every time when creating a new build), or you can create a file `build.env` in the root of this repository where you set the variables as follows:
 
 ```
 DEFAULT_HCP_CLIENT_ID="your.client.id"

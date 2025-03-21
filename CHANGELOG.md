@@ -1,7 +1,7 @@
 ## Changelog
 
 ### 1.6.0-20250321
-* The box has moved from ilionx/ubuntu2204 to ilionxde/ubuntu2204-minikube
+* The box has moved from ilionx/ubuntu2204 to ilionxde/ubuntu2204
 * Updated Ubuntu minor version to 22.04.5
 * Updated all Ubuntu packages to date 2025-03-21
 * Ansible: 10.7.0
